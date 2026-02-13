@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from pydantic import BaseModel
-
+from fastapi.middleware.cors import CORSMiddleware
 # Existing text model pipeline
 from models.models import predict_pipeline
 
@@ -14,6 +14,13 @@ import io
 # ------------------- FASTAPI APP -------------------
 app = FastAPI(title="Multi-Model Prediction API")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://fake-news-detector-rsvc.onrender.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ------------------- TEXT SCHEMA -------------------
 class TextIn(BaseModel):
